@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-ao">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Inside Systems - Gestão de Cursos</title>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>body{font-family:Arial;max-width:1000px;margin:auto;padding:20px;background:#f8f9fa} header{background:#0b2a5c;color:white;padding:25px;border-radius:15px;text-align:center} input{width:100%;padding:12px;margin-top:15px;border-radius:8px;border:none} .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:15px;margin-top:20px} .card{background:white;padding:18px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06)} .badge{background:#eef2ff;color:#0b2a5c;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:bold}</style>
+</head>
+<body><div id="root"></div>
+<script type="text/babel">
+const {useState, useEffect} = React;
+function App(){
+  const cursosBase = [
+    {id:1, nome:"Desenvolvimento Web Fullstack", tech:"React, Node, MongoDB", nivel:"Júnior", duracao:"60h"},
+    {id:2, nome:"APIs REST com Express", tech:"Node.js, Express, SQL", nivel:"Médio", duracao:"40h"},
+    {id:3, nome:"Fundamentos de Programação", tech:"Lógica, Estruturas de Dados", nivel:"Júnior", duracao:"50h"},
+    {id:4, nome:"Bases de Dados SQL e NoSQL", tech:"MySQL, PostgreSQL, MongoDB", nivel:"Médio", duracao:"45h"},
+    {id:5, nome:"Git e GitHub Profissional", tech:"Git, GitHub, CI/CD", nivel:"Júnior", duracao:"20h"},
+    {id:6, nome:"React + Vite na Prática", tech:"React, Vite, API REST", nivel:"Júnior", duracao:"35h"},
+  ];
+  const [busca, setBusca] = useState("");
+  const [cursos, setCursos] = useState(cursosBase);
+  
+  // Pesquisa dinâmica - requisito de lógica
+  const filtrados = cursos.filter(c => 
+    c.nome.toLowerCase().includes(busca.toLowerCase()) || 
+    c.tech.toLowerCase().includes(busca.toLowerCase())
+  );
+
+  return (
+    <div>
+      <header>
+        <h1>Inside Systems - Plataforma de Gestão de Cursos</h1>
+        <p>Unidade tecnológica da Inside Training | Demonstração React + Vite + API</p>
+        <input placeholder="Pesquisar por React, Node, MongoDB, SQL..." value={busca} onChange={e=>setBusca(e.target.value)} />
+      </header>
+      <p style={{marginTop:'15px'}}>Resultados: {filtrados.length} cursos encontrados</p>
+      <div className="grid">
+        {filtrados.map(c => (
+          <div key={c.id} className="card">
+            <span className="badge">{c.nivel}</span> <span className="badge">{c.duracao}</span>
+            <h3>{c.nome}</h3>
+            <p style={{color:'#666', fontSize:'13px'}}>{c.tech}</p>
+            <button style={{background:'#0b2a5c', color:'white', border:'none', padding:'8px 15px', borderRadius:'6px', marginTop:'10px'}}>Ver detalhes</button>
+          </div>
+        ))}
+      </div>
+      <footer style={{textAlign:'center', marginTop:'40px', color:'#888'}}>Feito por António Chaves - React + Vite + API REST</footer>
+    </div>
+  )
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
